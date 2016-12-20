@@ -5,7 +5,7 @@ import com.gramazski.seaport.entity.ship.Ship;
 /**
  * Created by gs on 20.12.2016.
  */
-public class Berth {
+public class Berth extends Thread {
     private int berthId;
     //????
     private int usingWarehouseId;

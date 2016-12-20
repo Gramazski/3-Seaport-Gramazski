@@ -29,8 +29,8 @@ public class PortBuildingsPool<T> implements IPool<T> {
 
                 return portBuilding;
             }
-        } catch (InterruptedException e) {
-            throw new PoolResourceException(e);
+        } catch (InterruptedException ex) {
+            throw new PoolResourceException(ex);
         }
 
         throw new PoolResourceException("Pool wait time out. No one free resource. Waiting time: " + maxWait);
