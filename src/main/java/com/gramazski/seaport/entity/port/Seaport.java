@@ -33,26 +33,21 @@ public class Seaport extends Thread {
 
     @Override
     public void run() {
-        //try{
-        //Change cycle on semaphore.acquire
-            while (true){
-                Berth berth = mooreShip();
-                BerthUploader berthUploader = new BerthUploader(berth, new WarehouseSearcher(warehousesPool));//Create uploader pool
-                berthUploader.start();
-                berthsPool.releaseResource(berthUploader.getBerth());
-                if (berthUploader.isInterrupted()){
-                    berthUploader.interrupt();
-                }
+        while (enteringPoint.tryAcquire()){
+            Berth berth = mooreShip();
+            BerthUploader berthUploader = new BerthUploader(berth, new WarehouseSearcher(warehousesPool));//Create uploader pool
+            berthUploader.start();
+            berthsPool.releaseResource(berthUploader.getBerth());
+            if (berthUploader.isInterrupted()){
+                berthUploader.interrupt();
             }
-        //}
-        /*catch (InterruptedException ex){
-
-        }*/
+        }
 
     }
 
     private Ship getShip(){
         try {
+            //Test waiting time - 0, -1
              Ship ship = waitingShipsPool.acquireResource(1000);
             return ship;
         }
@@ -66,12 +61,12 @@ public class Seaport extends Thread {
     private Berth mooreShip(){
         try {
             Ship ship = getShip();
-            Berth berth = berthsPool.acquireResource(1000);//??
+            Berth berth = berthsPool.acquireResource(-1);
             berth.mooreShip(ship);
             return berth;
         }
         catch (PoolResourceException ex){
-
+            logger.log(Level.ERROR, "Can not moore ship. Course: " + ex.getMessage());
         }
 
         return null;//Change on throwing exception

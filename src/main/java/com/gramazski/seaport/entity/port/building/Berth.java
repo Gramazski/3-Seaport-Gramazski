@@ -7,9 +7,6 @@ import com.gramazski.seaport.entity.ship.Ship;
  */
 public class Berth {
     private int berthId;
-    //????
-    private int usingWarehouseId;
-    //????
     private Ship mooredShip;
 
     public Berth(int berthId){
@@ -22,5 +19,9 @@ public class Berth {
 
     public Ship getMooredShip() {
         return mooredShip;
+    }
+
+    public int getBerthId() {
+        return berthId;
     }
 }

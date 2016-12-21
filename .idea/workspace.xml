@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1e9b5f43-73fd-405a-bb0d-1e659644dc76" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/entering/PortEnteringPoint.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/exception/PortThreadingException.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/java/com/gramazski/seaport/action/searcher/WarehouseSearcherTest.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/actioner/searcher/WarehouseSearcher.java" afterPath="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/action/searcher/WarehouseSearcher.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/actioner/uploader/BerthUploader.java" afterPath="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/action/uploader/BerthUploader.java" />
+    <list default="true" id="1e9b5f43-73fd-405a-bb0d-1e659644dc76" name="Default" comment="Searcher updated: added synchronised warehouse getting without cycling true. Port entering point realize semaphore, which notify port about mooring new ship. Test for warehouse searcher added.">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/action/uploader/BerthUploader.java" afterPath="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/action/uploader/BerthUploader.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/Seaport.java" afterPath="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/Seaport.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/building/Berth.java" afterPath="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/building/Berth.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/ship/Ship.java" afterPath="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/ship/Ship.java" />
     </list>
     <ignored path="3-Seaport-Gramazski.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -46,10 +44,22 @@
       <file leaf-file-name="Seaport.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/Seaport.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
-              <caret line="47" column="42" selection-start-line="47" selection-start-column="42" selection-end-line="47" selection-end-column="42" />
+            <state relative-caret-position="485">
+              <caret line="68" column="84" selection-start-line="68" selection-start-column="84" selection-end-line="68" selection-end-column="84" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Warehouse.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/building/Warehouse.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="323">
+              <caret line="23" column="57" selection-start-line="23" selection-start-column="57" selection-end-line="23" selection-end-column="57" />
+              <folding>
+                <element signature="method#unloadProduct#0;class#Warehouse#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -69,14 +79,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PortThreadingException.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/exception/PortThreadingException.java">
+      <file leaf-file-name="Berth.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/building/Berth.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="53" selection-start-line="5" selection-start-column="53" selection-end-line="5" selection-end-column="53" />
+            <state relative-caret-position="136">
+              <caret line="8" column="24" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
               <folding>
-                <element signature="e#436#437#0" expanded="true" />
-                <element signature="e#468#469#0" expanded="true" />
+                <element signature="e#402#403#0" expanded="true" />
+                <element signature="e#435#436#0" expanded="true" />
+                <element signature="e#466#467#0" expanded="true" />
+                <element signature="e#496#497#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -92,11 +104,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WarehouseSearcher.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="WarehouseSearcher.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/action/searcher/WarehouseSearcher.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="366">
-              <caret line="26" column="51" selection-start-line="26" selection-start-column="51" selection-end-line="26" selection-end-column="51" />
+            <state relative-caret-position="247">
+              <caret line="25" column="20" selection-start-line="25" selection-start-column="20" selection-end-line="25" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -104,14 +116,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PoolResourceException.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/exception/PoolResourceException.java">
+      <file leaf-file-name="Ship.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/ship/Ship.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" column="4" selection-start-line="6" selection-start-column="4" selection-end-line="19" selection-end-column="5" />
+            <state relative-caret-position="340">
+              <caret line="20" column="8" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="22" />
               <folding>
-                <element signature="e#431#432#0" expanded="true" />
-                <element signature="e#463#464#0" expanded="true" />
+                <element signature="e#479#480#0" expanded="true" />
+                <element signature="e#508#509#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -134,21 +146,11 @@
       <file leaf-file-name="BerthUploader.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/action/uploader/BerthUploader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="63" selection-start-line="16" selection-start-column="63" selection-end-line="16" selection-end-column="63" />
+            <state relative-caret-position="366">
+              <caret line="28" column="54" selection-start-line="28" selection-start-column="54" selection-end-line="28" selection-end-column="54" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Ship.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/ship/Ship.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -187,18 +189,18 @@
         <option value="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/pool/IPool.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/building/Warehouse.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/ship/attributes/ActionType.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/ship/Ship.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/pool/building/PortBuildingsPool.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/uploader/BerthUploader.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/actioner/searcher/WarehouseSearcher.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/building/Berth.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/actioner/uploader/BerthUploader.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/action/uploader/BerthUploader.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/Seaport.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/exception/PortThreadingException.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/entering/PortEnteringPoint.java" />
         <option value="$PROJECT_DIR$/src/test/java/com/gramazski/seaport/action/searcher/WarehouseSearcherTest.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/action/searcher/WarehouseSearcher.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/ship/Ship.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/action/uploader/BerthUploader.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/building/Berth.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/Seaport.java" />
       </list>
     </option>
   </component>
@@ -326,44 +328,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="resources" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="3-Seaport-Gramazski" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="3-Seaport-Gramazski" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="com" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gramazski" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="seaport" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="reader" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1266,7 +1230,7 @@
       <option name="presentableId" value="Default" />
       <updated>1482244639231</updated>
       <workItem from="1482244644672" duration="6248000" />
-      <workItem from="1482301642229" duration="5989000" />
+      <workItem from="1482301642229" duration="7590000" />
     </task>
     <task id="LOCAL-00001" summary="Text file reader added. Pool for port buildings (berth and warehouse) added. Logging and testing configuration added. Empty classes for Seaport and Ship added.">
       <created>1482246979466</created>
@@ -1303,7 +1267,14 @@
       <option name="project" value="LOCAL" />
       <updated>1482306017977</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Searcher updated: added synchronised warehouse getting without cycling true. Port entering point realize semaphore, which notify port about mooring new ship. Test for warehouse searcher added.">
+      <created>1482307846529</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1482307846529</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1318,7 +1289,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12237000" />
+    <option name="totallyTimeSpent" value="13838000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="784" extended-state="0" />
@@ -1368,7 +1339,8 @@
     <MESSAGE value="Berth uses as thread. Seaport updated - external ship list added." />
     <MESSAGE value="Berth uploader created as wrapper for berth. Berth isn't thread." />
     <MESSAGE value="Warehouse searcher added, without realization. Berth uploader updated: searcher added." />
-    <option name="LAST_COMMIT_MESSAGE" value="Warehouse searcher added, without realization. Berth uploader updated: searcher added." />
+    <MESSAGE value="Searcher updated: added synchronised warehouse getting without cycling true. Port entering point realize semaphore, which notify port about mooring new ship. Test for warehouse searcher added." />
+    <option name="LAST_COMMIT_MESSAGE" value="Searcher updated: added synchronised warehouse getting without cycling true. Port entering point realize semaphore, which notify port about mooring new ship. Test for warehouse searcher added." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1422,10 +1394,10 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#379#380#0" expanded="true" />
-            <element signature="e#423#424#0" expanded="true" />
-            <element signature="e#458#459#0" expanded="true" />
-            <element signature="e#491#492#0" expanded="true" />
+            <element signature="e#402#403#0" expanded="true" />
+            <element signature="e#435#436#0" expanded="true" />
+            <element signature="e#466#467#0" expanded="true" />
+            <element signature="e#496#497#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1549,47 +1521,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/building/Berth.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="23" column="8" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="26" />
-          <folding>
-            <element signature="e#379#380#0" expanded="true" />
-            <element signature="e#423#424#0" expanded="true" />
-            <element signature="e#458#459#0" expanded="true" />
-            <element signature="e#491#492#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/building/Warehouse.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="36" column="0" selection-start-line="36" selection-start-column="0" selection-end-line="36" selection-end-column="0" />
-          <folding>
-            <element signature="method#unloadProduct#0;class#Warehouse#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/ship/Ship.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/action/uploader/BerthUploader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="63" selection-start-line="16" selection-start-column="63" selection-end-line="16" selection-end-column="63" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/exception/PoolResourceException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -1606,30 +1537,8 @@
         <state relative-caret-position="85">
           <caret line="5" column="53" selection-start-line="5" selection-start-column="53" selection-end-line="5" selection-end-column="53" />
           <folding>
-            <element signature="e#436#437#0" expanded="true" />
-            <element signature="e#468#469#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/entering/PortEnteringPoint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="44" selection-start-line="10" selection-start-column="44" selection-end-line="10" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#337#338#0" expanded="true" />
-            <element signature="e#403#404#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/Seaport.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="47" column="42" selection-start-line="47" selection-start-column="42" selection-end-line="47" selection-end-column="42" />
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#436#437#0" expanded="false" />
+            <element signature="e#468#469#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1664,12 +1573,78 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/building/Warehouse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="23" column="57" selection-start-line="23" selection-start-column="57" selection-end-line="23" selection-end-column="57" />
+          <folding>
+            <element signature="method#unloadProduct#0;class#Warehouse#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/action/searcher/WarehouseSearcher.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="26" column="51" selection-start-line="26" selection-start-column="51" selection-end-line="26" selection-end-column="51" />
+        <state relative-caret-position="247">
+          <caret line="25" column="20" selection-start-line="25" selection-start-column="20" selection-end-line="25" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/entering/PortEnteringPoint.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="44" selection-start-line="10" selection-start-column="44" selection-end-line="10" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#337#338#0" expanded="true" />
+            <element signature="e#403#404#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/action/uploader/BerthUploader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="366">
+          <caret line="28" column="54" selection-start-line="28" selection-start-column="54" selection-end-line="28" selection-end-column="54" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/building/Berth.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="24" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
+          <folding>
+            <element signature="e#402#403#0" expanded="true" />
+            <element signature="e#435#436#0" expanded="true" />
+            <element signature="e#466#467#0" expanded="true" />
+            <element signature="e#496#497#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/port/Seaport.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="485">
+          <caret line="68" column="84" selection-start-line="68" selection-start-column="84" selection-end-line="68" selection-end-column="84" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/gramazski/seaport/entity/ship/Ship.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="8" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="22" />
+          <folding>
+            <element signature="e#479#480#0" expanded="true" />
+            <element signature="e#508#509#0" expanded="true" />
           </folding>
         </state>
       </provider>

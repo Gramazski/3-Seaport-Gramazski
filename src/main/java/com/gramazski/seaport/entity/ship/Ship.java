@@ -9,10 +9,16 @@ public class Ship {
     private int capacity;
     private ActionType actionType;
     private int uploadedProductCount;
+    private int shipId;
 
-    public Ship(int capacity){
+    public Ship(int capacity, int shipId){
         this.capacity = capacity;
         this.actionType = ActionType.UPLOAD;
+        this.shipId = shipId;
+    }
+
+    public int getShipId() {
+        return shipId;
     }
 
     public ActionType getActionType() {
