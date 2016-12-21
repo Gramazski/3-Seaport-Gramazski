@@ -1,7 +1,8 @@
-package com.gramazski.seaport.actioner.searcher;
+package com.gramazski.seaport.action.searcher;
 
 import com.gramazski.seaport.entity.pool.IPool;
 import com.gramazski.seaport.entity.port.building.Warehouse;
+import com.gramazski.seaport.exception.PoolResourceException;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -21,7 +22,15 @@ public class WarehouseSearcher {
         Warehouse warehouse = null;
         locking.lock();
         try {
-
+            while (true){
+                warehouse = warehousesPool.acquireResource(-1);
+                if (warehouse.getFreeSpaceCount() > uploadCount){
+                    return warehouse;
+                }
+            }
+        }
+        catch (PoolResourceException ex){
+            //throw PortThreadingException
         }
         finally {
             locking.unlock();

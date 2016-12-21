@@ -1,6 +1,6 @@
-package com.gramazski.seaport.actioner.uploader;
+package com.gramazski.seaport.action.uploader;
 
-import com.gramazski.seaport.actioner.searcher.WarehouseSearcher;
+import com.gramazski.seaport.action.searcher.WarehouseSearcher;
 import com.gramazski.seaport.entity.port.building.Berth;
 import com.gramazski.seaport.entity.port.building.Warehouse;
 
@@ -10,6 +10,7 @@ import com.gramazski.seaport.entity.port.building.Warehouse;
 public class BerthUploader extends Thread {
     private Berth berth;
     private WarehouseSearcher warehouseSearcher;
+    //Add method for choosing warehouse action
 
     @Override
     public void run(){
