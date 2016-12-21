@@ -1,5 +1,6 @@
 package com.gramazski.seaport.entity.port;
 
+import com.gramazski.seaport.actioner.searcher.WarehouseSearcher;
 import com.gramazski.seaport.actioner.uploader.BerthUploader;
 import com.gramazski.seaport.entity.pool.IPool;
 import com.gramazski.seaport.entity.port.building.Berth;
@@ -31,9 +32,12 @@ public class Seaport extends Thread {
         //try{
             while (true){
                 Berth berth = mooreShip();
-                BerthUploader berthUploader = new BerthUploader(berth);//Create uploader pool
+                BerthUploader berthUploader = new BerthUploader(berth, new WarehouseSearcher(warehousesPool));//Create uploader pool
                 berthUploader.start();
                 berthsPool.releaseResource(berthUploader.getBerth());
+                if (berthUploader.isInterrupted()){
+                    berthUploader.interrupt();
+                }
             }
         //}
         /*catch (InterruptedException ex){

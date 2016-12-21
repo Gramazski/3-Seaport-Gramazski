@@ -19,4 +19,8 @@ public class Berth {
     public void mooreShip(Ship ship){
         this.mooredShip = mooredShip;
     }
+
+    public Ship getMooredShip() {
+        return mooredShip;
+    }
 }
