@@ -1,5 +1,7 @@
 package com.gramazski.seaport.entity.port.entering;
 
+import com.gramazski.seaport.entity.pool.IPool;
+import com.gramazski.seaport.entity.ship.Ship;
 import com.gramazski.seaport.exception.PortThreadingException;
 
 import java.util.concurrent.Semaphore;
@@ -9,6 +11,7 @@ import java.util.concurrent.Semaphore;
  */
 public class PortEnteringPoint {
     private Semaphore portEnteringSemaphore;
+    private IPool<Ship> waitingShipsPool;
 
     public PortEnteringPoint(Semaphore portEnteringSemaphore){
         this.portEnteringSemaphore = portEnteringSemaphore;

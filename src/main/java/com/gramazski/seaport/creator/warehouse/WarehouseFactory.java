@@ -1,16 +1,16 @@
 package com.gramazski.seaport.creator.warehouse;
 
-import com.gramazski.seaport.creator.AbstractSeaportBuldingFactory;
+import com.gramazski.seaport.creator.AbstractEntitiesFactory;
 import com.gramazski.seaport.entity.port.building.Warehouse;
 import com.gramazski.seaport.exception.DataReaderException;
 
 /**
  * Created by gs on 26.12.2016.
  */
-public class WarehouseFactory extends AbstractSeaportBuldingFactory<Warehouse> {
-    public Warehouse getBuilding(String parametrs) throws DataReaderException {
+public class WarehouseFactory extends AbstractEntitiesFactory<Warehouse> {
+    public Warehouse getBuilding(String parameters) throws DataReaderException {
         //Remove to parser
-        String[] warehouseParameters = parametrs.split(",");
+        String[] warehouseParameters = parameters.split(",");
         int warehouseId;
         int warehouseCapacity;
 

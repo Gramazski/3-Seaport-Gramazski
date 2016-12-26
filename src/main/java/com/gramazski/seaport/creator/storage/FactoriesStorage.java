@@ -1,6 +1,6 @@
 package com.gramazski.seaport.creator.storage;
 
-import com.gramazski.seaport.creator.AbstractSeaportBuldingFactory;
+import com.gramazski.seaport.creator.AbstractEntitiesFactory;
 import com.gramazski.seaport.creator.berth.BerthFactory;
 import com.gramazski.seaport.creator.key.SeaportEntity;
 import com.gramazski.seaport.creator.warehouse.WarehouseFactory;
@@ -15,11 +15,11 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class FactoriesStorage {
     private static Lock locking = new ReentrantLock();
-    private Map<SeaportEntity, AbstractSeaportBuldingFactory> factoriesMap;
+    private Map<SeaportEntity, AbstractEntitiesFactory> factoriesMap;
     private static FactoriesStorage instance;
 
     private FactoriesStorage(){
-        factoriesMap = new HashMap<SeaportEntity, AbstractSeaportBuldingFactory>();
+        factoriesMap = new HashMap<SeaportEntity, AbstractEntitiesFactory>();
         factoriesMap.put(SeaportEntity.BERTH, new BerthFactory());
         factoriesMap.put(SeaportEntity.WAREHOUSE, new WarehouseFactory());
     }
@@ -38,7 +38,7 @@ public class FactoriesStorage {
         return instance;
     }
 
-    public AbstractSeaportBuldingFactory getFactory(SeaportEntity key){
+    public AbstractEntitiesFactory getFactory(SeaportEntity key){
         if (factoriesMap.containsKey(key)){
             return factoriesMap.get(key);
         }
@@ -46,7 +46,7 @@ public class FactoriesStorage {
         return null;
     }
 
-    public boolean addFactory(SeaportEntity key, AbstractSeaportBuldingFactory factory){
+    public boolean addFactory(SeaportEntity key, AbstractEntitiesFactory factory){
         //Add abstract checking
         if (!factoriesMap.containsKey(key)){
             factoriesMap.put(key, factory);

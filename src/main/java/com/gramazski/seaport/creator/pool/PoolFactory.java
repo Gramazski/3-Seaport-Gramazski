@@ -1,6 +1,6 @@
 package com.gramazski.seaport.creator.pool;
 
-import com.gramazski.seaport.creator.AbstractSeaportBuldingFactory;
+import com.gramazski.seaport.creator.AbstractEntitiesFactory;
 import com.gramazski.seaport.creator.key.SeaportEntity;
 import com.gramazski.seaport.creator.storage.FactoriesStorage;
 import com.gramazski.seaport.entity.pool.IPool;
@@ -18,7 +18,7 @@ public class PoolFactory<T> {
         //Add to parser
         //Buildings split with ;
         String[] buildingItemsParameters = parameters.split(";");
-        AbstractSeaportBuldingFactory<T> factory;
+        AbstractEntitiesFactory<T> factory;
         Queue<T> buildingsList = new LinkedList<T>();
 
         try{

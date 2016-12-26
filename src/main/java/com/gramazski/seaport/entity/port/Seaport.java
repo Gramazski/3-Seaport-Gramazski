@@ -19,6 +19,7 @@ import java.util.concurrent.Semaphore;
 public class Seaport extends Thread {
     private static final Logger logger = LogManager.getLogger(Seaport.class);
     private final IPool<Berth> berthsPool;
+    //Create wrapper for warehouses pool as singleton
     private final IPool<Warehouse> warehousesPool;
     //Use for getting new ships runtime
     private IPool<Ship> waitingShipsPool;
@@ -34,6 +35,7 @@ public class Seaport extends Thread {
 
     @Override
     public void run() {
+        //Test and change
         while (enteringPoint.tryAcquire()){
             Berth berth = mooreShip();
             //Create uploaders thread pool. Memory problem???
