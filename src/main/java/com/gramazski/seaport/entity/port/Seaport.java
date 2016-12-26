@@ -22,6 +22,7 @@ public class Seaport extends Thread {
     private final IPool<Warehouse> warehousesPool;
     //Use for getting new ships runtime
     private IPool<Ship> waitingShipsPool;
+    private IPool<BerthUploader> berthUploadersPool;
     private Semaphore enteringPoint;
 
     public Seaport(IPool<Berth> berthsPool, IPool<Warehouse> warehousesPool, IPool<Ship> waitingShipsPool, Semaphore enteringPoint){
