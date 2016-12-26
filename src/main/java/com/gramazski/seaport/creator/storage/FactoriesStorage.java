@@ -26,9 +26,12 @@ public class FactoriesStorage {
     public static FactoriesStorage getInstance(){
         if (instance == null){
             locking.lock();
+
             if (instance == null){
                 instance = new FactoriesStorage();
             }
+
+            locking.unlock();
         }
 
         return instance;
