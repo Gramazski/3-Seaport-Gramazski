@@ -36,7 +36,8 @@ public class Seaport extends Thread {
     public void run() {
         while (enteringPoint.tryAcquire()){
             Berth berth = mooreShip();
-            BerthUploader berthUploader = new BerthUploader(berth, new WarehouseSearcher(warehousesPool));//Create uploader pool
+            //Create uploaders thread pool. Memory problem???
+            BerthUploader berthUploader = new BerthUploader(berth, new WarehouseSearcher(warehousesPool));
             berthUploader.start();
             berthsPool.releaseResource(berthUploader.getBerth());
             if (berthUploader.isInterrupted()){
@@ -49,7 +50,7 @@ public class Seaport extends Thread {
     private Ship getShip(){
         try {
             //Test waiting time - 0, -1
-             Ship ship = waitingShipsPool.acquireResource(1000);
+            Ship ship = waitingShipsPool.acquireResource(1000);
             return ship;
         }
         catch (PoolResourceException ex){
@@ -64,6 +65,8 @@ public class Seaport extends Thread {
             Ship ship = getShip();
             Berth berth = berthsPool.acquireResource(-1);
             berth.mooreShip(ship);
+            logger.log(Level.INFO, "Ship " + ship.getShipId() + " moore to berth " + berth.getBerthId());
+
             return berth;
         }
         catch (PoolResourceException ex){

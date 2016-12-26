@@ -23,6 +23,7 @@ public class BerthUploader extends Thread {
 
     @Override
     public void run(){
+        //Add map with delegates for uploading and unloading
         Warehouse warehouse = warehouseSearcher.findWarehouseByUploadCount(berth.getMooredShip().getUploadedProductCount());
         logger.log(Level.INFO, "Warehouse for berth - " + berth.getBerthId() + " founded. Warehouse id - "
                 + warehouse.getWarehouseId() + ". Ship - " + berth.getMooredShip().getShipId() + ".");
