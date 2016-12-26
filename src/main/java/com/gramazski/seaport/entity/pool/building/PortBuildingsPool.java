@@ -27,9 +27,8 @@ public class PortBuildingsPool<T> implements IPool<T> {
     
     public T acquireResource(long maxWait) throws PoolResourceException {
         try {
+            locking.lock();
             if (semaphore.tryAcquire(maxWait, TimeUnit.MILLISECONDS)) {
-
-                locking.lock();
                 T portBuilding = portBuildings.poll();
 
                 return portBuilding;

@@ -5,6 +5,7 @@ package com.gramazski.seaport.entity.port.building;
  */
 public class Warehouse {
     private int capacity;
+    //Change on atomic integer
     private int uploadedProductCount;
     private int warehouseId;
 

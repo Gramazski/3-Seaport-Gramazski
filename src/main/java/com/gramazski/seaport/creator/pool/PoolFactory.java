@@ -8,12 +8,19 @@ import com.gramazski.seaport.entity.pool.building.PortBuildingsPool;
 import com.gramazski.seaport.exception.DataReaderException;
 
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by gs on 26.12.2016.
  */
 public class PoolFactory<T> {
+    private static Lock locking = new ReentrantLock();
+    private Map<SeaportEntity, AbstractEntitiesFactory> factoriesMap;
+    private static FactoriesStorage instance;
+
     public IPool<T> getBuildingsPool(String parameters) throws DataReaderException {
         //Add to parser
         //Buildings split with ;

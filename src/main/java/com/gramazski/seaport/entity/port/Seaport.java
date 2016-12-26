@@ -1,6 +1,5 @@
 package com.gramazski.seaport.entity.port;
 
-import com.gramazski.seaport.action.searcher.WarehouseSearcher;
 import com.gramazski.seaport.action.uploader.BerthUploader;
 import com.gramazski.seaport.entity.pool.IPool;
 import com.gramazski.seaport.entity.port.building.Berth;
@@ -20,14 +19,14 @@ public class Seaport extends Thread {
     private static final Logger logger = LogManager.getLogger(Seaport.class);
     private final IPool<Berth> berthsPool;
     //Create wrapper for warehouses pool as singleton
-    private final IPool<Warehouse> warehousesPool;
+    private final Warehouse portWarehouse;
     //Use for getting new ships runtime
     private PortEnteringPoint portEnteringPoint;
     private IPool<BerthUploader> berthUploadersPool;
 
-    public Seaport(IPool<Berth> berthsPool, IPool<Warehouse> warehousesPool, PortEnteringPoint portEnteringPoint){
+    public Seaport(IPool<Berth> berthsPool, Warehouse portWarehouse, PortEnteringPoint portEnteringPoint){
         this.berthsPool = berthsPool;
-        this.warehousesPool = warehousesPool;
+        this.portWarehouse = portWarehouse;
         this.portEnteringPoint = portEnteringPoint;
     }
 
@@ -37,12 +36,8 @@ public class Seaport extends Thread {
         while (true){
             Berth berth = mooreShip();
             //Create uploaders thread pool. Memory problem???
-            BerthUploader berthUploader = new BerthUploader(berth, new WarehouseSearcher(warehousesPool));
+            BerthUploader berthUploader = new BerthUploader(berth, portWarehouse, berthsPool);
             berthUploader.start();
-            berthsPool.releaseResource(berthUploader.getBerth());
-            if (berthUploader.isInterrupted()){
-                berthUploader.interrupt();
-            }
         }
 
     }
@@ -63,7 +58,7 @@ public class Seaport extends Thread {
     private Berth mooreShip(){
         try {
             Ship ship = getShip();
-            Berth berth = berthsPool.acquireResource(-1);
+            Berth berth = berthsPool.acquireResource(10000);
             berth.mooreShip(ship);
             logger.log(Level.INFO, "Ship " + ship.getShipId() + " moore to berth " + berth.getBerthId());
 

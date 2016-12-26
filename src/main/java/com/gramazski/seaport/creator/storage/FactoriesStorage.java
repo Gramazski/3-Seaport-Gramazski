@@ -3,6 +3,7 @@ package com.gramazski.seaport.creator.storage;
 import com.gramazski.seaport.creator.AbstractEntitiesFactory;
 import com.gramazski.seaport.creator.berth.BerthFactory;
 import com.gramazski.seaport.creator.key.SeaportEntity;
+import com.gramazski.seaport.creator.ship.ShipFactory;
 import com.gramazski.seaport.creator.warehouse.WarehouseFactory;
 
 import java.util.HashMap;
@@ -22,6 +23,7 @@ public class FactoriesStorage {
         factoriesMap = new HashMap<SeaportEntity, AbstractEntitiesFactory>();
         factoriesMap.put(SeaportEntity.BERTH, new BerthFactory());
         factoriesMap.put(SeaportEntity.WAREHOUSE, new WarehouseFactory());
+        factoriesMap.put(SeaportEntity.SHIP, new ShipFactory());
     }
 
     public static FactoriesStorage getInstance(){

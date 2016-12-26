@@ -14,7 +14,7 @@ public class Berth {
     }
 
     public void mooreShip(Ship ship){
-        this.mooredShip = mooredShip;
+        this.mooredShip = ship;
     }
 
     public Ship getMooredShip() {

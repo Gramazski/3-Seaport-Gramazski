@@ -17,6 +17,11 @@ public class Ship {
         this.shipId = shipId;
     }
 
+    //For test
+    public void setUploadedProductCount(int uploadedProductCount) {
+        this.uploadedProductCount = uploadedProductCount;
+    }
+
     public int getShipId() {
         return shipId;
     }
