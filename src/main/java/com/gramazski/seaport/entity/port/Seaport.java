@@ -20,7 +20,6 @@ import java.util.concurrent.Semaphore;
 public class Seaport extends Thread {
     private static final Logger logger = LogManager.getLogger(Seaport.class);
     private final IPool<Berth> berthsPool;
-    //Create wrapper for warehouses pool as singleton
     private final Warehouse portWarehouse;
     //Use for getting new ships runtime
     private Semaphore portEnteringSemaphore;
@@ -36,14 +35,14 @@ public class Seaport extends Thread {
 
     @Override
     public void run() {
-        //Test and change
         while (true){
             Berth berth = mooreShipToBerth();
-            //Create uploaders thread pool. Memory problem???
-            BerthUploader berthUploader = new BerthUploader(berth, portWarehouse, berthsPool);
-            berthUploader.start();
+            if (berth != null){
+                //Create uploaders thread pool. Memory problem???
+                BerthUploader berthUploader = new BerthUploader(berth, portWarehouse, berthsPool);
+                berthUploader.start();
+            }
         }
-
     }
 
     public void mooreShip(Ship ship){
@@ -75,16 +74,19 @@ public class Seaport extends Thread {
     private Berth mooreShipToBerth(){
         try {
             Ship ship = getShip();
-            Berth berth = berthsPool.acquireResource();
-            berth.mooreShip(ship);
-            logger.log(Level.INFO, "Ship " + ship.getShipId() + " moore to berth " + berth.getBerthId());
+            if (ship != null){
+                Berth berth = berthsPool.acquireResource();
+                berth.mooreShip(ship);
+                logger.log(Level.INFO, "Ship " + ship.getShipId() + " moore to berth " + berth.getBerthId());
 
-            return berth;
+                return berth;
+            }
+
         }
         catch (PoolResourceException ex){
             logger.log(Level.ERROR, "Can not moore ship. Course: " + ex.getMessage());
         }
 
-        return null;//Change on throwing exception
+        return null;
     }
 }

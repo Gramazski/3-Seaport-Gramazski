@@ -51,4 +51,8 @@ public class Ship {
 
         return true;
     }
+
+    public void unloadProduct(){
+        this.uploadedProductCount = 0;
+    }
 }
