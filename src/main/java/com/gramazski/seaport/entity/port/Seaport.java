@@ -2,15 +2,17 @@ package com.gramazski.seaport.entity.port;
 
 import com.gramazski.seaport.action.uploader.BerthUploader;
 import com.gramazski.seaport.entity.pool.IPool;
+import com.gramazski.seaport.entity.pool.building.PortBuildingsPool;
 import com.gramazski.seaport.entity.port.building.Berth;
 import com.gramazski.seaport.entity.port.building.Warehouse;
-import com.gramazski.seaport.entity.port.entering.PortEnteringPoint;
 import com.gramazski.seaport.entity.ship.Ship;
 import com.gramazski.seaport.exception.PoolResourceException;
-import com.gramazski.seaport.exception.PortThreadingException;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.LinkedList;
+import java.util.concurrent.Semaphore;
 
 /**
  * Created by gs on 20.12.2016.
@@ -21,20 +23,22 @@ public class Seaport extends Thread {
     //Create wrapper for warehouses pool as singleton
     private final Warehouse portWarehouse;
     //Use for getting new ships runtime
-    private PortEnteringPoint portEnteringPoint;
+    private Semaphore portEnteringSemaphore;
+    private IPool<Ship> waitingShipsPool;
     private IPool<BerthUploader> berthUploadersPool;
 
-    public Seaport(IPool<Berth> berthsPool, Warehouse portWarehouse, PortEnteringPoint portEnteringPoint){
+    public Seaport(IPool<Berth> berthsPool, Warehouse portWarehouse){
         this.berthsPool = berthsPool;
         this.portWarehouse = portWarehouse;
-        this.portEnteringPoint = portEnteringPoint;
+        this.portEnteringSemaphore = new Semaphore(10, true);
+        this.waitingShipsPool = new PortBuildingsPool<Ship>(new LinkedList<Ship>());
     }
 
     @Override
     public void run() {
         //Test and change
         while (true){
-            Berth berth = mooreShip();
+            Berth berth = mooreShipToBerth();
             //Create uploaders thread pool. Memory problem???
             BerthUploader berthUploader = new BerthUploader(berth, portWarehouse, berthsPool);
             berthUploader.start();
@@ -42,20 +46,33 @@ public class Seaport extends Thread {
 
     }
 
+    public void mooreShip(Ship ship){
+        waitingShipsPool.releaseResource(ship);
+        signalAboutShipMooring();
+    }
+
+    private void signalAboutShipMooring(){
+        portEnteringSemaphore.release();
+    }
+
     private Ship getShip(){
+        Ship ship = null;
+
         try {
-            //Test waiting time - 0, -1
-            Ship ship = portEnteringPoint.getMooredShip();
-            return ship;
+            portEnteringSemaphore.acquire();
+            ship = waitingShipsPool.acquireResource();
         }
-        catch (PortThreadingException ex){
+        catch (InterruptedException ex){
+            logger.log(Level.FATAL, "Can not get ship from pool. Course: " + ex.getMessage());
+        }
+        catch (PoolResourceException ex){
             logger.log(Level.ERROR, "Can not get ship from pool. Course: " + ex.getMessage());
         }
 
-        return null;
+        return ship;
     }
 
-    private Berth mooreShip(){
+    private Berth mooreShipToBerth(){
         try {
             Ship ship = getShip();
             Berth berth = berthsPool.acquireResource();
