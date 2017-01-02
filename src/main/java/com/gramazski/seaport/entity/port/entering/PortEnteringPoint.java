@@ -33,7 +33,7 @@ public class PortEnteringPoint {
 
         try {
             portEnteringSemaphore.acquire();
-            ship = waitingShipsPool.acquireResource(1000);
+            ship = waitingShipsPool.acquireResource();
         } catch (InterruptedException ex) {
             throw new PortThreadingException("Error in getting moored ship. Course: " + ex.getMessage());
         }

@@ -14,7 +14,7 @@ public class PoolFactoryTest {
         PoolFactory<Warehouse> warehousePoolFactory = new PoolFactory<Warehouse>();
         IPool<Warehouse> warehousesPool = warehousePoolFactory.getBuildingsPool("WAREHOUSE:10,12;WAREHOUSE:11,10;");
 
-        Assert.assertEquals(warehousesPool.acquireResource(10).getCapacity(), 12);
+        Assert.assertEquals(warehousesPool.acquireResource().getCapacity(), 12);
     }
 
 }

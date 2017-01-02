@@ -6,7 +6,7 @@ import com.gramazski.seaport.exception.PoolResourceException;
  * Created by gs on 20.12.2016.
  */
 public interface IPool<T> {
-    T acquireResource(long maxWaitMillis) throws PoolResourceException;
+    T acquireResource() throws PoolResourceException;
 
     void releaseResource(T resource);
 }

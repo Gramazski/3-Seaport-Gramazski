@@ -4,6 +4,9 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * Created by gs on 20.12.2016.
  */
@@ -12,6 +15,7 @@ public class Warehouse {
     //Change on atomic integer
     private int uploadedProductCount;
     private int warehouseId;
+    private Lock locking = new ReentrantLock();
     private static final Logger logger = LogManager.getLogger(Warehouse.class);
 
     public Warehouse(int capacity, int warehouseId){
@@ -28,13 +32,7 @@ public class Warehouse {
     }
 
     public boolean uploadProduct(int uploadedProductCount){
-        if (this.uploadedProductCount > (this.capacity / 90)){
-            updateWarehouse(this.uploadedProductCount - (this.capacity / 90));
-        }
-
-        if (this.uploadedProductCount < (this.capacity / 10)){
-            updateWarehouse(this.uploadedProductCount - (this.capacity / 10));
-        }
+        controlProductCount();
 
         if ((this.uploadedProductCount + uploadedProductCount > capacity) || (uploadedProductCount < 0)){
             return false;
@@ -53,6 +51,22 @@ public class Warehouse {
         uploadedProductCount += extraCount;
         logger.log(Level.INFO, "Warehouse id: " + warehouseId + ". Warehouse upload count updated by warehouse manager. Extra count: " + extraCount +
                 ". Current count: " + uploadedProductCount);
+    }
+
+    private void controlProductCount(){
+        try{
+            locking.lock();
+            if (this.uploadedProductCount > (this.capacity * 9 / 10)){
+                updateWarehouse(this.uploadedProductCount - (this.capacity / 90));
+            }
+
+            if (this.uploadedProductCount < (this.capacity / 10)){
+                updateWarehouse((this.capacity / 10) - this.uploadedProductCount);
+            }
+        }
+        finally {
+            locking.unlock();
+        }
     }
 
     public int unloadProduct(int unloadedProductCount){

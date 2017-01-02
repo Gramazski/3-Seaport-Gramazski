@@ -27,12 +27,12 @@ public class BerthUploader extends Thread {
     public void run(){
         //Add map with delegates for uploading and unloading
         logger.log(Level.INFO, "Warehouse for berth - " + berth.getBerthId() + " founded. Warehouse id - "
-                + warehouse.getWarehouseId() + " with capacity - " + warehouse.getFreeSpaceCount()
+                + warehouse.getWarehouseId() + " with free space - " + warehouse.getFreeSpaceCount()
                 + ". Ship - " + berth.getMooredShip().getShipId() + ".");
         warehouse.uploadProduct(berth.getMooredShip().getUploadedProductCount());
         logger.log(Level.INFO, "Product uploaded count: " + berth.getMooredShip().getUploadedProductCount()
                 + ". On berth - " + berth.getBerthId() + ". In warehouse - " + warehouse.getWarehouseId()
-                + " with capacity - " + warehouse.getFreeSpaceCount() + ". Ship - " + berth.getMooredShip().getShipId() + ".");
+                + " with free space - " + warehouse.getFreeSpaceCount() + ". Ship - " + berth.getMooredShip().getShipId() + ".");
         berthsPool.releaseResource(berth);
         this.interrupt();
     }

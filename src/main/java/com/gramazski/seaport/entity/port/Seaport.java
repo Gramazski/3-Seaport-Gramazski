@@ -58,7 +58,7 @@ public class Seaport extends Thread {
     private Berth mooreShip(){
         try {
             Ship ship = getShip();
-            Berth berth = berthsPool.acquireResource(10000);
+            Berth berth = berthsPool.acquireResource();
             berth.mooreShip(ship);
             logger.log(Level.INFO, "Ship " + ship.getShipId() + " moore to berth " + berth.getBerthId());
 
