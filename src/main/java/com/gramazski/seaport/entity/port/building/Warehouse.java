@@ -88,7 +88,7 @@ public class Warehouse {
         }
 
         if (unloadedProductCount > uploadedProductCount.get()){
-            updateWarehouse(uploadedProductCount.get() - unloadedProductCount);
+            updateWarehouse(unloadedProductCount - uploadedProductCount.get());
         }
 
         uploadedProductCount.addAndGet(-unloadedProductCount);

@@ -27,6 +27,9 @@ public class BerthUploader extends Thread {
     @Override
     public void run(){
         //Add map with delegates for uploading and unloading
+        logger.log(Level.INFO, "Warehouse for berth - " + berth.getBerthId() + " founded. Warehouse id - "
+                + warehouse.getWarehouseId() + " with free space - " + warehouse.getFreeSpaceCount()
+                + ". Ship - " + berth.getMooredShip().getShipId() + ".");
         makeAction();
         berthsPool.releaseResource(berth);
         this.interrupt();
@@ -57,9 +60,6 @@ public class BerthUploader extends Thread {
     }
 
     private void unloadShip(){
-        logger.log(Level.INFO, "Warehouse for berth - " + berth.getBerthId() + " founded. Warehouse id - "
-                + warehouse.getWarehouseId() + " with free space - " + warehouse.getFreeSpaceCount()
-                + ". Ship - " + berth.getMooredShip().getShipId() + ".");
         warehouse.uploadProduct(berth.getMooredShip().getUploadedProductCount());
         logger.log(Level.INFO, "Product unloaded count: " + berth.getMooredShip().getUploadedProductCount()
                 + ". On berth - " + berth.getBerthId() + ". In warehouse - " + warehouse.getWarehouseId()
@@ -68,12 +68,7 @@ public class BerthUploader extends Thread {
     }
 
     private void uploadShip(){
-        logger.log(Level.INFO, "Warehouse for berth - " + berth.getBerthId() + " founded. Warehouse id - "
-                + warehouse.getWarehouseId() + " with free space - " + warehouse.getFreeSpaceCount()
-                + ". Ship - " + berth.getMooredShip().getShipId() + ".");
-        //Add variable to ship for unloadingProduct
         warehouse.unloadProduct(berth.getMooredShip().getCapacity());
-        //Add description for this action
         berth.getMooredShip().uploadProduct(berth.getMooredShip().getUploadedProductCount());
         logger.log(Level.INFO, "Product uploaded count: " + berth.getMooredShip().getCapacity()
                 + ". On berth - " + berth.getBerthId() + ". In warehouse - " + warehouse.getWarehouseId()
