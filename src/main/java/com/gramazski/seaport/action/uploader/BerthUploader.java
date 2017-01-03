@@ -61,10 +61,10 @@ public class BerthUploader extends Thread {
                 + warehouse.getWarehouseId() + " with free space - " + warehouse.getFreeSpaceCount()
                 + ". Ship - " + berth.getMooredShip().getShipId() + ".");
         warehouse.uploadProduct(berth.getMooredShip().getUploadedProductCount());
-        berth.getMooredShip().unloadProduct();
-        logger.log(Level.INFO, "Product uploaded count: " + berth.getMooredShip().getUploadedProductCount()
+        logger.log(Level.INFO, "Product unloaded count: " + berth.getMooredShip().getUploadedProductCount()
                 + ". On berth - " + berth.getBerthId() + ". In warehouse - " + warehouse.getWarehouseId()
                 + " with free space - " + warehouse.getFreeSpaceCount() + ". Ship - " + berth.getMooredShip().getShipId() + ".");
+        berth.getMooredShip().unloadProduct();
     }
 
     private void uploadShip(){
@@ -72,10 +72,10 @@ public class BerthUploader extends Thread {
                 + warehouse.getWarehouseId() + " with free space - " + warehouse.getFreeSpaceCount()
                 + ". Ship - " + berth.getMooredShip().getShipId() + ".");
         //Add variable to ship for unloadingProduct
-        warehouse.unloadProduct(berth.getMooredShip().getUploadedProductCount());
+        warehouse.unloadProduct(berth.getMooredShip().getCapacity());
         //Add description for this action
         berth.getMooredShip().uploadProduct(berth.getMooredShip().getUploadedProductCount());
-        logger.log(Level.INFO, "Product uploaded count: " + berth.getMooredShip().getUploadedProductCount()
+        logger.log(Level.INFO, "Product uploaded count: " + berth.getMooredShip().getCapacity()
                 + ". On berth - " + berth.getBerthId() + ". In warehouse - " + warehouse.getWarehouseId()
                 + " with free space - " + warehouse.getFreeSpaceCount() + ". Ship - " + berth.getMooredShip().getShipId() + ".");
 

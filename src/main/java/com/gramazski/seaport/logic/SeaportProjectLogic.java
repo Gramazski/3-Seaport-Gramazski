@@ -28,6 +28,20 @@ public class SeaportProjectLogic {
             seaport.mooreShip(ship);
         }
 
+        ship = new Ship(200, 20);
+        ship.setUploadedProductCount(100);
+        ship.setActionType(ActionType.UNLOAD);
+        seaport.mooreShip(ship);
+
+        for (int i = 10; i < 14; i++){
+            ship = new Ship(10, i);
+            //ship.setUploadedProductCount(5);
+            ship.setActionType(ActionType.UPLOAD);
+            seaport.mooreShip(ship);
+        }
+
+
+
         seaport.terminate();
 
         ship = new Ship(12, 12);

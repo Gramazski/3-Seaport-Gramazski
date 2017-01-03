@@ -5,6 +5,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by gs on 20.12.2016.
@@ -14,6 +16,7 @@ public class Warehouse {
     private AtomicInteger uploadedProductCount;
     private int warehouseId;
     private static final Logger logger = LogManager.getLogger(Warehouse.class);
+    private Lock locking = new ReentrantLock();
 
     public Warehouse(int capacity, int warehouseId){
         this.capacity = capacity;
@@ -30,6 +33,7 @@ public class Warehouse {
     }
 
     public int uploadProduct(int uploadedProductCount){
+        locking.lock();
         controlProductCount();
 
         if (this.uploadedProductCount.get() + uploadedProductCount > capacity){
@@ -37,7 +41,7 @@ public class Warehouse {
                 uploadedProductCount = capacity;
             }
 
-            updateWarehouse(-uploadedProductCount);
+            updateWarehouse(capacity - (this.uploadedProductCount.get() + uploadedProductCount));
         }
 
         if (uploadedProductCount < 0){
@@ -45,6 +49,8 @@ public class Warehouse {
         }
 
         this.uploadedProductCount.addAndGet(uploadedProductCount);
+
+        locking.unlock();
 
         return uploadedProductCount;
     }
@@ -61,7 +67,7 @@ public class Warehouse {
 
     private void controlProductCount(){
         if (this.uploadedProductCount.get() > (this.capacity * 9 / 10)){
-            updateWarehouse(this.uploadedProductCount.get() - (this.capacity / 90));
+            updateWarehouse((this.capacity * 9 / 10) - this.uploadedProductCount.get());
         }
 
         if (this.uploadedProductCount.get() < (this.capacity / 10)){
@@ -70,6 +76,9 @@ public class Warehouse {
     }
 
     public int unloadProduct(int unloadedProductCount){
+        locking.lock();
+
+        controlProductCount();
         if (unloadedProductCount < 0){
             return 0;
         }
@@ -83,6 +92,8 @@ public class Warehouse {
         }
 
         uploadedProductCount.addAndGet(-unloadedProductCount);
+
+        locking.unlock();
 
         return unloadedProductCount;
     }
