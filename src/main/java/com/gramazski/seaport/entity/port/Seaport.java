@@ -20,7 +20,6 @@ public class Seaport extends Thread {
     private final Warehouse portWarehouse;
     //Use for getting new ships runtime
     private IPool<Ship> waitingShipsPool;
-    private IPool<BerthUploader> berthUploadersPool;
     private boolean isTerminated;
 
     public Seaport(IPool<Berth> berthsPool, Warehouse portWarehouse){
@@ -33,11 +32,9 @@ public class Seaport extends Thread {
 
     @Override
     public void run() {
-        //Create method for terminating checking
         while (!(isTerminated) || (waitingShipsPool.getAvailableResourceCount() != 0)){
             Berth berth = mooreShipToBerth();
             if (berth != null){
-                //Create uploaders thread pool. Memory problem???
                 BerthUploader berthUploader = new BerthUploader(berth, portWarehouse, berthsPool);
                 berthUploader.start();
             }

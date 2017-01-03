@@ -44,24 +44,6 @@ public class SeaportProjectLogic {
                 seaport.mooreShip(ship);
             }
 
-            /*for (int i = 0; i < 10; i++){
-                ship = new Ship(10, i);
-                ship.setUploadedProductCount(5);
-                ship.setActionType(ActionType.UNLOAD);
-                seaport.mooreShip(ship);
-            }
-
-            ship = new Ship(200, 20);
-            ship.setUploadedProductCount(100);
-            ship.setActionType(ActionType.UNLOAD);
-            seaport.mooreShip(ship);
-
-            for (int i = 10; i < 14; i++){
-                ship = new Ship(10, i);
-                //ship.setUploadedProductCount(5);
-                ship.setActionType(ActionType.UPLOAD);
-                seaport.mooreShip(ship);
-            }*/
             seaport.terminate();
 
             ship = new Ship(12, 12);
@@ -82,9 +64,7 @@ public class SeaportProjectLogic {
     private static Seaport initSeaport(String berthData, String warehouseData) throws DataReaderException{
         PoolFactory<Berth> berthPoolFactory = new PoolFactory<Berth>();
         WarehouseFactory warehouseFactory = new WarehouseFactory();
-        Seaport seaport = null;
-
-        seaport = new Seaport(berthPoolFactory.getBuildingsPool(berthData),
+        Seaport seaport = new Seaport(berthPoolFactory.getBuildingsPool(berthData),
                 warehouseFactory.getBuilding(warehouseData));
 
         return seaport;
