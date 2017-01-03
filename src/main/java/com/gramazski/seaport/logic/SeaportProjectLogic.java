@@ -29,6 +29,10 @@ public class SeaportProjectLogic {
         }
 
         seaport.terminate();
+
+        ship = new Ship(12, 12);
+        //Ship does not mooring seaport
+        seaport.mooreShip(ship);
         //seaport.interrupt();
     }
 

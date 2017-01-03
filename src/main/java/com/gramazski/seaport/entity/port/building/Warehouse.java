@@ -4,23 +4,21 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by gs on 20.12.2016.
  */
 public class Warehouse {
     private int capacity;
-    //Change on atomic integer
-    private int uploadedProductCount;
+    private AtomicInteger uploadedProductCount;
     private int warehouseId;
-    private Lock locking = new ReentrantLock();
     private static final Logger logger = LogManager.getLogger(Warehouse.class);
 
     public Warehouse(int capacity, int warehouseId){
         this.capacity = capacity;
         this.warehouseId = warehouseId;
+        this.uploadedProductCount = new AtomicInteger(0);
     }
 
     public int getCapacity() {
@@ -31,41 +29,43 @@ public class Warehouse {
         return warehouseId;
     }
 
-    public boolean uploadProduct(int uploadedProductCount){
+    public int uploadProduct(int uploadedProductCount){
         controlProductCount();
 
-        if ((this.uploadedProductCount + uploadedProductCount > capacity) || (uploadedProductCount < 0)){
-            return false;
+        if (this.uploadedProductCount.get() + uploadedProductCount > capacity){
+            if (uploadedProductCount > capacity){
+                uploadedProductCount = capacity;
+            }
+
+            updateWarehouse(-uploadedProductCount);
         }
 
-        this.uploadedProductCount += uploadedProductCount;
+        if (uploadedProductCount < 0){
+            uploadedProductCount = 0;
+        }
 
-        return true;
+        this.uploadedProductCount.addAndGet(uploadedProductCount);
+
+        return uploadedProductCount;
     }
 
     public int getFreeSpaceCount(){
-        return capacity - uploadedProductCount;
+        return capacity - uploadedProductCount.get();
     }
 
     private void updateWarehouse(int extraCount){
-        uploadedProductCount += extraCount;
+        uploadedProductCount.addAndGet(extraCount);
         logger.log(Level.INFO, "Warehouse id: " + warehouseId + ". Warehouse upload count updated by warehouse manager. Extra count: " + extraCount +
                 ". Current count: " + uploadedProductCount);
     }
 
     private void controlProductCount(){
-        try{
-            locking.lock();
-            if (this.uploadedProductCount > (this.capacity * 9 / 10)){
-                updateWarehouse(this.uploadedProductCount - (this.capacity / 90));
-            }
-
-            if (this.uploadedProductCount < (this.capacity / 10)){
-                updateWarehouse((this.capacity / 10) - this.uploadedProductCount);
-            }
+        if (this.uploadedProductCount.get() > (this.capacity * 9 / 10)){
+            updateWarehouse(this.uploadedProductCount.get() - (this.capacity / 90));
         }
-        finally {
-            locking.unlock();
+
+        if (this.uploadedProductCount.get() < (this.capacity / 10)){
+            updateWarehouse((this.capacity / 10) - this.uploadedProductCount.get());
         }
     }
 
@@ -74,11 +74,15 @@ public class Warehouse {
             return 0;
         }
 
-        if (unloadedProductCount > uploadedProductCount){
-            return uploadedProductCount;
+        if (unloadedProductCount > capacity){
+            unloadedProductCount = capacity;
         }
 
-        uploadedProductCount -= unloadedProductCount;
+        if (unloadedProductCount > uploadedProductCount.get()){
+            updateWarehouse(uploadedProductCount.get() - unloadedProductCount);
+        }
+
+        uploadedProductCount.addAndGet(-unloadedProductCount);
 
         return unloadedProductCount;
     }
