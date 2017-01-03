@@ -23,6 +23,11 @@ public class PortBuildingsPool<T> implements IPool<T> {
         semaphore = new Semaphore(POOL_SIZE, true);
         portBuildings.addAll(portBuildingsList);
     }
+
+    public PortBuildingsPool(int poolSize) {
+        POOL_SIZE = poolSize;
+        semaphore = new Semaphore(POOL_SIZE, true);
+    }
     
     public T acquireResource() throws PoolResourceException {
         try {
@@ -43,5 +48,9 @@ public class PortBuildingsPool<T> implements IPool<T> {
     public void releaseResource(T resource) {
         portBuildings.add(resource);
         semaphore.release();
+    }
+
+    public int getAvailableResourceCount() {
+        return portBuildings.size();
     }
 }

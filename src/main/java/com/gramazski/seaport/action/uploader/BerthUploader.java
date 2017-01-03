@@ -27,7 +27,7 @@ public class BerthUploader extends Thread {
     @Override
     public void run(){
         //Add map with delegates for uploading and unloading
-        unloadShip();
+        makeAction();
         berthsPool.releaseResource(berth);
         this.interrupt();
     }
@@ -38,6 +38,22 @@ public class BerthUploader extends Thread {
 
     public void setBerth(Berth berth) {
         this.berth = berth;
+    }
+
+    private void makeAction(){
+        switch (berth.getMooredShip().getActionType()){
+            case UNLOAD:
+                unloadShip();
+                break;
+            case UPLOAD:
+                uploadShip();
+                break;
+            case ALL:
+                unloadUploadShip();
+            default:
+                //Throwing exception
+                break;
+        }
     }
 
     private void unloadShip(){
@@ -63,5 +79,10 @@ public class BerthUploader extends Thread {
                 + ". On berth - " + berth.getBerthId() + ". In warehouse - " + warehouse.getWarehouseId()
                 + " with free space - " + warehouse.getFreeSpaceCount() + ". Ship - " + berth.getMooredShip().getShipId() + ".");
 
+    }
+
+    private void unloadUploadShip(){
+        unloadShip();
+        uploadShip();
     }
 }

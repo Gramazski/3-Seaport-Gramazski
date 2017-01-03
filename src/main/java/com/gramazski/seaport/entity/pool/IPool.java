@@ -9,4 +9,6 @@ public interface IPool<T> {
     T acquireResource() throws PoolResourceException;
 
     void releaseResource(T resource);
+
+    int getAvailableResourceCount();
 }

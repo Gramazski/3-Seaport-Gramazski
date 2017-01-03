@@ -11,9 +11,6 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.LinkedList;
-import java.util.concurrent.Semaphore;
-
 /**
  * Created by gs on 20.12.2016.
  */
@@ -22,20 +19,22 @@ public class Seaport extends Thread {
     private final IPool<Berth> berthsPool;
     private final Warehouse portWarehouse;
     //Use for getting new ships runtime
-    private Semaphore portEnteringSemaphore;
     private IPool<Ship> waitingShipsPool;
     private IPool<BerthUploader> berthUploadersPool;
+    private boolean isTerminated;
 
     public Seaport(IPool<Berth> berthsPool, Warehouse portWarehouse){
         this.berthsPool = berthsPool;
         this.portWarehouse = portWarehouse;
-        this.portEnteringSemaphore = new Semaphore(10, true);
-        this.waitingShipsPool = new PortBuildingsPool<Ship>(new LinkedList<Ship>());
+        //Add pool size as input parameter
+        this.waitingShipsPool = new PortBuildingsPool<Ship>(10);
+        this.isTerminated = false;
     }
 
     @Override
     public void run() {
-        while (true){
+        //Create method for terminating checking
+        while (!(isTerminated) || (waitingShipsPool.getAvailableResourceCount() != 0)){
             Berth berth = mooreShipToBerth();
             if (berth != null){
                 //Create uploaders thread pool. Memory problem???
@@ -46,23 +45,20 @@ public class Seaport extends Thread {
     }
 
     public void mooreShip(Ship ship){
-        waitingShipsPool.releaseResource(ship);
-        signalAboutShipMooring();
+        if (!isTerminated){
+            waitingShipsPool.releaseResource(ship);
+        }
     }
 
-    private void signalAboutShipMooring(){
-        portEnteringSemaphore.release();
+    public void terminate(){
+        isTerminated = true;
     }
 
     private Ship getShip(){
         Ship ship = null;
 
         try {
-            portEnteringSemaphore.acquire();
             ship = waitingShipsPool.acquireResource();
-        }
-        catch (InterruptedException ex){
-            logger.log(Level.FATAL, "Can not get ship from pool. Course: " + ex.getMessage());
         }
         catch (PoolResourceException ex){
             logger.log(Level.ERROR, "Can not get ship from pool. Course: " + ex.getMessage());
@@ -74,6 +70,7 @@ public class Seaport extends Thread {
     private Berth mooreShipToBerth(){
         try {
             Ship ship = getShip();
+
             if (ship != null){
                 Berth berth = berthsPool.acquireResource();
                 berth.mooreShip(ship);
@@ -81,7 +78,6 @@ public class Seaport extends Thread {
 
                 return berth;
             }
-
         }
         catch (PoolResourceException ex){
             logger.log(Level.ERROR, "Can not moore ship. Course: " + ex.getMessage());

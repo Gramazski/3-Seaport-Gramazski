@@ -5,6 +5,7 @@ import com.gramazski.seaport.creator.warehouse.WarehouseFactory;
 import com.gramazski.seaport.entity.port.Seaport;
 import com.gramazski.seaport.entity.port.building.Berth;
 import com.gramazski.seaport.entity.ship.Ship;
+import com.gramazski.seaport.entity.ship.attributes.ActionType;
 import com.gramazski.seaport.exception.DataReaderException;
 
 /**
@@ -23,9 +24,12 @@ public class SeaportProjectLogic {
         for (int i = 0; i < 10; i++){
             ship = new Ship(10, i);
             ship.setUploadedProductCount(5);
+            ship.setActionType(ActionType.UNLOAD);
             seaport.mooreShip(ship);
         }
 
+        seaport.terminate();
+        //seaport.interrupt();
     }
 
     private static Seaport initSeaport(){
